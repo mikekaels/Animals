@@ -91,7 +91,7 @@ extension HomeVM {
 				}
 				
 				if case let .success(animals) = result {
-					state.dataSources.append(contentsOf: animals.map {
+					state.dataSources.append(contentsOf: animals.map { // N2
 						action.getImage.send($0.name)
 						return .content($0)
 					})

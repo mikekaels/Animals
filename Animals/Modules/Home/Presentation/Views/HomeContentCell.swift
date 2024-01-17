@@ -16,8 +16,6 @@ internal final class HomeContentCell: UICollectionViewCell {
 		setupView()
 	}
 	
-	var rotationAnimator: UIViewPropertyAnimator!
-	
 	private let cardView: UIView = {
 		let view = UIView()
 		view.layer.cornerRadius = 5

@@ -10,6 +10,7 @@ import Combine
 
 internal protocol ImageRepositoryProtocol {
 	func getImage(name: String) -> AnyPublisher<Image, ErrorResponse>
+	func getImages(name: String) -> AnyPublisher<[Image], ErrorResponse>
 }
 
 internal final class ImageRepository {
@@ -23,6 +24,12 @@ internal final class ImageRepository {
 extension ImageRepository: ImageRepositoryProtocol {
 	func getImage(name: String) -> AnyPublisher<Image, ErrorResponse> {
 		let apiRequest = ImageRequest(animalName: name)
+		let result = network.request(apiRequest)
+		return result.asPublisher
+	}
+	
+	func getImages(name: String) -> AnyPublisher<[Image], ErrorResponse> {
+		let apiRequest = ImagesRequest(animalName: name)
 		let result = network.request(apiRequest)
 		return result.asPublisher
 	}

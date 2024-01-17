@@ -14,10 +14,12 @@ class CustomColumnFlowLayout: UICollectionViewFlowLayout {
 	
 	let height: CGFloat
 	let totalColumn: CGFloat
+	let contentInterSpacing: CGFloat
 	
-	init(height: CGFloat, totalColumn: CGFloat) {
+	init(height: CGFloat, totalColumn: CGFloat, contentInterSpacing: CGFloat = 0) {
 		self.height = height
 		self.totalColumn = totalColumn
+		self.contentInterSpacing = contentInterSpacing
 		super.init()
 	}
 	
@@ -31,15 +33,16 @@ class CustomColumnFlowLayout: UICollectionViewFlowLayout {
 		
 		
 		if itemWidth.isFinite, itemWidth > 0 {
-			minimumInteritemSpacing = 0
-			itemSize =  CGSize(width: itemWidth, height: self.height)
+			minimumInteritemSpacing = self.contentInterSpacing
+			itemSize =  CGSize(width: itemWidth - self.contentInterSpacing, height: self.height)
 
 		} else {
-			itemSize = CGSize(width: collectionView.bounds.width / 2, height: collectionView.bounds.width / 2)
-			minimumInteritemSpacing = 0
+			minimumInteritemSpacing = self.contentInterSpacing
+			itemSize = CGSize(width: collectionView.bounds.width - self.contentInterSpacing / self.totalColumn, height: collectionView.bounds.width / self.totalColumn)
+			
 		}
 		
-		minimumLineSpacing = 0
+		minimumLineSpacing = (self.contentInterSpacing * 2)
 	}
 	
 	override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {

@@ -62,6 +62,7 @@ internal final class HomeVC: UIViewController, UIViewControllerTransitioningDele
 		let state = viewModel.transform(action, cancellabels: cancellabels)
 		
 		state.$dataSources
+			.receive(on: DispatchQueue.main)
 			.sink { [weak self] contents in
 				guard let self = self else { return }
 				var snapshoot = NSDiffableDataSourceSnapshot<Section, HomeVM.DataSourceType>()
@@ -72,10 +73,12 @@ internal final class HomeVC: UIViewController, UIViewControllerTransitioningDele
 			.store(in: cancellabels)
 		
 		state.$selected
+			.receive(on: DispatchQueue.main)
 			.filter { !$0.isEmpty }
 			.sink {  [weak self] animalName in
 				guard let self = self else { return }
-				let vc = DetailVC()
+				let vm = DetailVM(name: animalName)
+				let vc = DetailVC(viewModel: vm)
 				vc.title = animalName
 				self.navigationController?.pushViewController(vc, animated: true)
 			}
