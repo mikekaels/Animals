@@ -1,17 +1,17 @@
 //
-//  ListVM.swift
+//  DetailVM.swift
 //  Animals
 //
 //  Created by Santo Michael on 16/01/24.
 //
 
-import Combine
+import Foundation
 
-internal final class ListVM {
+internal final class DetailVM {
 	
 }
 
-extension ListVM {
+extension DetailVM {
 	struct Action {
 		
 	}
