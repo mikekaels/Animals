@@ -34,7 +34,7 @@ internal struct ImageRequest: APIRequest {
 	
 	func map(_ data: Data) throws -> Image {
 		let decoded = try JSONDecoder().decode(ImageResponse.self, from: data)
-		return Image(name: animalName, url: decoded.photos?.first?.src?.tiny ?? "")
+		return Image(name: animalName, url: ImageURL(tiny: decoded.photos?.first?.src?.tiny ?? "", large: ""), showedImage: decoded.photos?.first?.src?.tiny ?? "")
 	}
 }
 

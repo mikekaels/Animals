@@ -20,6 +20,8 @@ internal final class DetailVC: UIViewController {
 	private let viewModel: DetailVM
 	private let cancellables = CancelBag()
 	private let didLoadPublisher = PassthroughSubject<Void, Never>()
+	private let rightBarButtonDidTapPublisher = PassthroughSubject<Void, Never>()
+	private let doubleTapPublisher = PassthroughSubject<String, Never>()
 	
 	init(viewModel: DetailVM = DetailVM()) {
 		self.viewModel = viewModel
@@ -37,6 +39,14 @@ internal final class DetailVC: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		navigationController?.navigationBar.prefersLargeTitles = true
+		
+		let rightButton = UIBarButtonItem(image: .init(systemName: "rectangle.split.1x2"), style: .plain, target: self, action: #selector(updateColumnFlowLayout ))
+		rightButton.tintColor = .white
+		navigationItem.rightBarButtonItem = rightButton
+	}
+	
+	@objc private func updateColumnFlowLayout() {
+		rightBarButtonDidTapPublisher.send(())
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
@@ -55,7 +65,13 @@ internal final class DetailVC: UIViewController {
 			guard let self = self else { return UICollectionViewCell() }
 			 
 			if case let .content(data) = type, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell {
-				cell.set(image: data.url)
+				cell.set(image: data.showedImage)
+				cell.set(isLiked: data.isLiked)
+				cell.doubleTapPublisher
+					.sink { _ in
+						self.doubleTapPublisher.send(data.url.tiny)
+					}
+					.store(in: cell.cancellabels)
 				return cell
 			}
 			
@@ -65,7 +81,10 @@ internal final class DetailVC: UIViewController {
 	}()
 	
 	private func bindViewModel() {
-		let action = DetailVM.Action(didLoad: didLoadPublisher)
+		let action = DetailVM.Action(didLoad: didLoadPublisher, 
+									 rightBarButtonDidTap: rightBarButtonDidTapPublisher.eraseToAnyPublisher(),
+									 doubleTap: doubleTapPublisher.eraseToAnyPublisher()
+		)
 		let state = viewModel.transform(action, cancellables: cancellables)
 		
 		state.$dataSources
@@ -76,6 +95,14 @@ internal final class DetailVC: UIViewController {
 				snapshoot.appendSections([.main])
 				snapshoot.appendItems(contents, toSection: .main)
 				self.dataSource.apply(snapshoot, animatingDifferences: true)
+			}
+			.store(in: cancellables)
+		
+		Publishers.CombineLatest3(state.$column, state.$rightBarButtonImage, state.$cellHeight)
+			.sink { [weak self] (column, rightBarButtonImage, height) in
+				self?.navigationItem.rightBarButtonItem?.image = UIImage(systemName: rightBarButtonImage)
+				self?.collectionView.collectionViewLayout = CustomColumnFlowLayout(height: height, totalColumn: CGFloat(column), contentInterSpacing: 3)
+				self?.collectionView.reloadData()
 			}
 			.store(in: cancellables)
 	}

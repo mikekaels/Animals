@@ -32,16 +32,8 @@ class CustomColumnFlowLayout: UICollectionViewFlowLayout {
 		let itemWidth = (availableWidth - minimumInteritemSpacing) / self.totalColumn
 		
 		
-		if itemWidth.isFinite, itemWidth > 0 {
-			minimumInteritemSpacing = self.contentInterSpacing
-			itemSize =  CGSize(width: itemWidth - self.contentInterSpacing, height: self.height)
-
-		} else {
-			minimumInteritemSpacing = self.contentInterSpacing
-			itemSize = CGSize(width: collectionView.bounds.width - self.contentInterSpacing / self.totalColumn, height: collectionView.bounds.width / self.totalColumn)
-			
-		}
-		
+		minimumInteritemSpacing = self.contentInterSpacing
+		itemSize =  CGSize(width: itemWidth - self.contentInterSpacing, height: self.height)
 		minimumLineSpacing = (self.contentInterSpacing * 2)
 	}
 	

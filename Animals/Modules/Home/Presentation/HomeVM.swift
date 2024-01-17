@@ -69,7 +69,7 @@ extension HomeVM {
 					}) else { return }
 					
 					if case var .content(animal) = state.dataSources[index] {
-						animal.image = image.url
+						animal.image = image.url.tiny
 						state.dataSources[index] = .content(animal)
 					}
 				}
