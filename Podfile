@@ -8,7 +8,6 @@ target 'Animals' do
 	pod 'CombineCocoa'
 	pod 'Kingfisher', '~> 7.0'
 	pod 'Alamofire'
-	pod 'SkeletonView'
 end
 
 post_install do |installer|

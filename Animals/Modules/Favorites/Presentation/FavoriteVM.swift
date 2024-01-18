@@ -40,12 +40,7 @@ extension FavoriteVM {
 					.eraseToAnyPublisher()
 			}
 			.sink { result in
-				if case let .failure(error) = result {
-					
-				}
-				
-				if case let .success(isDeleted) = result {
-					print("~ IS DELETED", isDeleted)
+				if case .success = result {
 					action.willAppear.send(())
 				}
 			}
@@ -59,7 +54,7 @@ extension FavoriteVM {
 					.eraseToAnyPublisher()
 			}
 			.sink { result in
-				if case let .failure(error) = result {
+				if case .failure = result {
 					
 				}
 				

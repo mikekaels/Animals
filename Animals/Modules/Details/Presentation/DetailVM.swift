@@ -129,7 +129,7 @@ extension DetailVM {
 					.eraseToAnyPublisher()
 			}
 			.sink { result in
-				if case let .failure(error) = result {
+				if case .failure = result {
 					
 				}
 				

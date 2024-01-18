@@ -55,7 +55,7 @@ extension HomeVM {
 			}
 			.receive(on: DispatchQueue.main)
 			.sink{ result in
-				if case let .failure(error) = result {
+				if case .failure = result {
 					
 				}
 				
@@ -86,7 +86,7 @@ extension HomeVM {
 			}
 			.receive(on: DispatchQueue.main)
 			.sink{ result in
-				if case let .failure(error) = result {
+				if case .failure = result {
 					
 				}
 				
