@@ -13,9 +13,9 @@ class TabBarController: UITabBarController {
 		super.viewDidLoad()
 		
 		let listVC = HomeVC()
-		listVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
+		listVC.tabBarItem = UITabBarItem(title: "Animals", image: UIImage(systemName: "pawprint.fill"), tag: 0)
 		
-		let favoriteVC = UIViewController()
+		let favoriteVC = FavoriteVC()
 		favoriteVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), tag: 0)
 		
 		self.viewControllers = [listVC, favoriteVC]

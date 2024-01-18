@@ -61,7 +61,6 @@ internal final class HomeContentCell: UICollectionViewCell {
 	}()
 	
 	private func setupView() {
-		contentView.backgroundColor = .clear
 		
 		contentView.addSubview(cardView)
 		
@@ -107,15 +106,7 @@ extension HomeContentCell {
 				.scaleFactor(UIScreen.main.scale),
 				.forceRefresh,
 				.transition(.flipFromBottom(0.8))
-			]) { result in
-				switch result {
-				case let .success(imageResult):
-					
-					break
-				case let .failure(error):
-					break
-				}
-			}
+			])
 		}
 	}
 	

@@ -13,9 +13,9 @@ internal struct ImagesRequest: APIRequest {
 	
 	private var animalName: String
 	
-	init(animalName: String) {
+	init(animalName: String, page: Int, perPage: Int) {
 		self.animalName = animalName
-		self.path = "v1/search?query=\(animalName)&per_page=18"
+		self.path = "v1/search?query=\(animalName)&per_page=\(perPage)&page=\(page)"
 	}
 	
 	var baseURL: String {
@@ -37,8 +37,7 @@ internal struct ImagesRequest: APIRequest {
 		guard let photos = decoded.photos else { return [] }
 		
 		return photos.map {
-			let url = ImageURL(tiny: $0.src?.tiny ?? "", large: $0.src?.large ?? "")
-			return Image(name: animalName, url: url, showedImage: $0.src?.tiny ?? "")
+			return Image(name: animalName, image: $0.src?.tiny ?? "")
 		}
 	}
 }

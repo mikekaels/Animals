@@ -59,9 +59,9 @@ extension HomeVM {
 					
 				}
 				
-				if case let .success(image) = result {
+				if case let .success(content) = result {
 					guard let index = state.dataSources.firstIndex(where: {
-						if case let .content(animal) = $0, animal.name == image.name {
+						if case let .content(animal) = $0, animal.name == content.name {
 							return true
 						}
 						
@@ -69,7 +69,7 @@ extension HomeVM {
 					}) else { return }
 					
 					if case var .content(animal) = state.dataSources[index] {
-						animal.image = image.url.tiny
+						animal.image = content.image
 						state.dataSources[index] = .content(animal)
 					}
 				}

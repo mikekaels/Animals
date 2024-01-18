@@ -7,6 +7,9 @@
 
 import UIKit
 import Combine
+import CombineCocoa
+import SnapKit
+import Kingfisher
 
 internal final class DetailVC: UIViewController {
 	required init?(coder: NSCoder) {
@@ -22,6 +25,7 @@ internal final class DetailVC: UIViewController {
 	private let didLoadPublisher = PassthroughSubject<Void, Never>()
 	private let rightBarButtonDidTapPublisher = PassthroughSubject<Void, Never>()
 	private let doubleTapPublisher = PassthroughSubject<String, Never>()
+	private let loadMorePublisher = PassthroughSubject<Void, Never>()
 	
 	init(viewModel: DetailVM = DetailVM()) {
 		self.viewModel = viewModel
@@ -53,23 +57,32 @@ internal final class DetailVC: UIViewController {
 		navigationController?.navigationBar.prefersLargeTitles = false
 	}
 	
+	private let loadMoreLoadingView: UIActivityIndicatorView = {
+		let loadMore = UIActivityIndicatorView(style: .large)
+		loadMore.color = UIColor(hex: "FE1F44")
+		loadMore.startAnimating()
+		loadMore.isHidden = true
+		return loadMore
+	}()
+	
 	private let collectionView: UICollectionView = {
 		let collection = UICollectionView(frame: .zero, collectionViewLayout: CustomColumnFlowLayout(height: 125, totalColumn: 3, contentInterSpacing: 3))
 		collection.backgroundColor = UIColor(hex: "1E1C1C")
+		collection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
+		
 		collection.register(DetailContentCell.self, forCellWithReuseIdentifier: DetailContentCell.identifier)
 		return collection
 	}()
 	
 	private lazy var dataSource: UICollectionViewDiffableDataSource<Section, DetailVM.DataSourceType> = {
 		let dataSource = UICollectionViewDiffableDataSource<Section, DetailVM.DataSourceType>(collectionView: collectionView) { [weak self] collectionView, indexPath, type in
-			guard let self = self else { return UICollectionViewCell() }
 			 
 			if case let .content(data) = type, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DetailContentCell.identifier, for: indexPath) as? DetailContentCell {
-				cell.set(image: data.showedImage)
+				cell.set(image: data.image)
 				cell.set(isLiked: data.isLiked)
 				cell.doubleTapPublisher
 					.sink { _ in
-						self.doubleTapPublisher.send(data.url.tiny)
+						self?.doubleTapPublisher.send(data.image)
 					}
 					.store(in: cell.cancellabels)
 				return cell
@@ -83,8 +96,8 @@ internal final class DetailVC: UIViewController {
 	private func bindViewModel() {
 		let action = DetailVM.Action(didLoad: didLoadPublisher, 
 									 rightBarButtonDidTap: rightBarButtonDidTapPublisher.eraseToAnyPublisher(),
-									 doubleTap: doubleTapPublisher.eraseToAnyPublisher()
-		)
+									 doubleTap: doubleTapPublisher.eraseToAnyPublisher(),
+									 loadMore: loadMorePublisher.eraseToAnyPublisher())
 		let state = viewModel.transform(action, cancellables: cancellables)
 		
 		state.$dataSources
@@ -105,10 +118,20 @@ internal final class DetailVC: UIViewController {
 				self?.collectionView.reloadData()
 			}
 			.store(in: cancellables)
+		
+		state.$isLoadMore
+			.sink { [weak self] isLoading in
+				self?.loadMoreLoadingView.isHidden = isLoading ? false : true
+			}
+			.store(in: cancellables)
 	}
 	
 	private func bindView() {
-		
+		collectionView.reachedBottomPublisher()
+			.sink { [weak self] _ in
+				self?.loadMorePublisher.send(())
+			}
+			.store(in: cancellables)
 	}
 	
 	private func setupView() {
@@ -117,6 +140,13 @@ internal final class DetailVC: UIViewController {
 		
 		collectionView.snp.makeConstraints { make in
 			make.edges.equalToSuperview()
+		}
+		
+		view.addSubview(loadMoreLoadingView)
+		loadMoreLoadingView.snp.makeConstraints { make in
+			make.size.equalTo(100)
+			make.centerX.equalToSuperview()
+			make.bottom.equalToSuperview()
 		}
 	}
 }

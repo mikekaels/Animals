@@ -9,9 +9,9 @@ import Foundation
 
 internal struct Image: Hashable {
 	let name: String
-	let url: ImageURL
-	var showedImage: String
+	var image: String
 	var isLiked: Bool = false
+	var id: String = UUID().uuidString
 }
 
 internal struct ImageURL: Hashable {

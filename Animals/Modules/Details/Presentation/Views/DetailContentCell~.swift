@@ -77,87 +77,90 @@ internal final class DetailContentCell: UICollectionViewCell {
 	}
 	
 	@objc func handleDoubleTap() {
-		contentView.isUserInteractionEnabled = false
 		if isLiked {
 			let amplitude: CGFloat = 1.0
 			UIView.animateKeyframes(withDuration: 1.0, delay: 0, options: .calculationModeCubic, animations: { [weak self] in
+				guard let self = self else { return }
 				UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.3, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.4, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.5, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.6, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.7, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.8, relativeDuration: 0.9) {
-					self?.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
+					self.loveIconView.transform = CGAffineTransform(translationX: -amplitude, y: 0)
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.9, relativeDuration: 0.1) {
-					self?.loveIconView.alpha = 0.0
-					self?.loveIconView.transform = .identity
+					self.loveIconView.alpha = 0.0
+					self.loveIconView.transform = .identity
 				}
 				
 			}) { [weak self] isComplete in
 				self?.doubleTapPublisher.send(())
 				self?.layoutIfNeeded()
-				self?.contentView.isUserInteractionEnabled = true
 			}
 		} else {
 			UIView.animateKeyframes(withDuration: 0.75, delay: 0, options: .calculationModeCubic, animations: { [weak self] in
+				guard let self = self else { return }
 				UIView.addKeyframe(withRelativeStartTime: 0.1, relativeDuration: 0.25) {
-					self?.loveIconView.alpha = 0.5
+					self.loveIconView.alpha = 0.5
 				}
 				
 				UIView.addKeyframe(withRelativeStartTime: 0.25, relativeDuration: 0.75) {
-					self?.loveIconView.alpha = 1.0
+					self.loveIconView.alpha = 1.0
 				}
-				self?.layoutIfNeeded()
+				self.layoutIfNeeded()
 			}) { [weak self] isComplete in
+				guard let self = self else { return }
 				UIView.animateKeyframes(withDuration: 0.2, delay: 0, options: .calculationModeCubic, animations: {
-					UIView.addKeyframe(withRelativeStartTime: 1.0, relativeDuration: 0.25) { [weak self] in
-						self?.loveIconView.snp.remakeConstraints { make in
+					
+					UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.25) {
+						
+					}
+					UIView.addKeyframe(withRelativeStartTime: 1.0, relativeDuration: 0.25) {
+						self.loveIconView.snp.remakeConstraints { make in
 							make.size.equalTo(30)
 						}
 						
-						self?.loveIconView.snp.makeConstraints { make in
+						self.loveIconView.snp.makeConstraints { make in
 							make.bottom.equalToSuperview().offset(-5)
 							make.left.equalToSuperview().offset(5)
 						}
 						
 					}
-					self?.layoutIfNeeded()
+					self.layoutIfNeeded()
 				}) { [weak self] isComplete in
 					self?.doubleTapPublisher.send(())
-					self?.contentView.isUserInteractionEnabled = true
 				}
 			}
 		}
-		
 	}
 	
 	required init?(coder: NSCoder) {
@@ -187,7 +190,11 @@ extension DetailContentCell {
 	
 	internal func set(image: String) {
 		if let url = URL(string: image) {
-			self.imageView.kf.setImage(with: url)
+			self.imageView.kf.setImage(with: url, options: [
+				.processor(DownsamplingImageProcessor(size: CGSize(width: 100, height: 70))),
+				.scaleFactor(UIScreen.main.scale),
+				.forceRefresh
+			])
 		}
 	}
 }
