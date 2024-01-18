@@ -57,23 +57,13 @@ internal final class DetailContentCell: UICollectionViewCell {
 	}
 	
 	private func handleGesture() {
-		// Single Tap
-		let singleTap: UITapGestureRecognizer =  UITapGestureRecognizer(target: self, action: #selector(handleSingleTap))
-		singleTap.numberOfTapsRequired = 1
-		self.contentView.addGestureRecognizer(singleTap)
 		
 		// Double Tap
 		let doubleTap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap))
 		doubleTap.numberOfTapsRequired = 2
 		self.contentView.addGestureRecognizer(doubleTap)
 		
-		singleTap.require(toFail: doubleTap)
-		singleTap.delaysTouchesBegan = true
 		doubleTap.delaysTouchesBegan = true
-	}
-	
-	@objc func handleSingleTap(sender: AnyObject?) {
-		print("~ Single Tap!")
 	}
 	
 	@objc func handleDoubleTap() {
