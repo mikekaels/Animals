@@ -4,7 +4,7 @@
 
 ## Screens
 - List of animals
-- Detail of animals ```Double tap the image to like & dislike``
+- Detail of animals ```Double tap the image to like & dislike```
 - List of liked image
 
 
