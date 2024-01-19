@@ -34,6 +34,7 @@ I use the clean architecture that might be worth looking into in larger projects
 ```
 
 ### Design Pattern MVVM-FRP (✅ Unidirectional data flow)
+#### ViewModel
 ```
 internal final class StoreVM {
     struct Action {
@@ -50,7 +51,7 @@ internal final class StoreVM {
 }
 ```
 
-### VC
+#### ViewController
 ```
 private func bindViewModel() {
    let input = StoreVM.Input(...)
@@ -64,6 +65,7 @@ private func bindViewModel() {
 }
 ```
 
+
 ### Programatically UI
 I'm more confident to use programatically to avoid error or conflict on the XIB or Storyboard
 ```
@@ -76,6 +78,7 @@ private let imageView: UIImageView = {
         
 view.addSubview(imageView)
 ```
+
 
 ### Auto Layout
 To configure auto layout I use [SnapKit](https://github.com/SnapKit/SnapKit) to reduce the code and make development faster.
@@ -97,6 +100,7 @@ imageView.snp.makeConstraints { make in
     make.centerX.equalTo(contentView)
 }
 ```
+
 
 ### Networking
 Using [Alamofire](https://github.com/Alamofire/Alamofire) to manage the network request and I build an abstraction for the APIRequest
@@ -124,15 +128,18 @@ internal struct AnimalRequest: APIRequest {
 
 ```
 
+
 ### Unit Testing
 - **XCTest**
 
-## Dependency
+
+### Dependency
 - Local storage **CoreData**
 - Networking  using **Alamofire**
 - Auto Layout using **Snapkit**
 - Handling image using **Kingfisher**
 - **CombineCocoa**
+
 
 ## Getting Started
 ### 1. Clone this project
