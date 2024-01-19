@@ -22,8 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 	
 	private func setupImageCaching() {
-		let cache = ImageCache.default
-		cache.memoryStorage.config.totalCostLimit = 1
+//		let cache = ImageCache.default
+//		cache.memoryStorage.config.totalCostLimit = 1
 	}
 	
 	private func customNavigationBar() {

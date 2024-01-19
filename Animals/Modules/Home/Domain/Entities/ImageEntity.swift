@@ -7,7 +7,7 @@
 
 import Foundation
 
-internal struct Image: Hashable {
+internal struct ImageEntity: Hashable {
 	let name: String
 	var image: String
 	var isLiked: Bool = false

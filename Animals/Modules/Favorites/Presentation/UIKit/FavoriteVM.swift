@@ -15,7 +15,7 @@ internal final class FavoriteVM {
 	}
 	
 	enum DataSourceType: Hashable {
-		case content(Image)
+		case content(ImageEntity)
 	}
 }
 

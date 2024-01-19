@@ -44,6 +44,7 @@ internal final class FavoriteVC: UIViewController {
 		collection.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
 		
 		collection.register(DetailContentCell.self, forCellWithReuseIdentifier: DetailContentCell.identifier)
+		collection.alwaysBounceVertical = true
 		return collection
 	}()
 	

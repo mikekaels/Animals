@@ -9,9 +9,9 @@ import Combine
 import Networking
 
 internal protocol DetailUseCaseProtocol {
-	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[Image], ErrorResponse>
-	func imageLiked(image: Image) -> AnyPublisher<Bool, Error>
-	func getFavorites() -> AnyPublisher<[Image], Error>
+	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[ImageEntity], ErrorResponse>
+	func imageLiked(image: ImageEntity) -> AnyPublisher<Bool, Error>
+	func getFavorites() -> AnyPublisher<[ImageEntity], Error>
 	func checkLikeStatus(image: String) -> Bool
 	func dislikeImage(image: String) -> AnyPublisher<Bool, Error>
 }
@@ -36,15 +36,15 @@ extension DetailUseCase: DetailUseCaseProtocol {
 		imageCoreData.checkLikeStatusBy(image: image)
 	}
 	
-	func getFavorites() -> AnyPublisher<[Image], Error> {
+	func getFavorites() -> AnyPublisher<[ImageEntity], Error> {
 		imageCoreData.getAll()
 	}
 	
-	func imageLiked(image: Image) -> AnyPublisher<Bool, Error> {
+	func imageLiked(image: ImageEntity) -> AnyPublisher<Bool, Error> {
 		imageCoreData.create(image: image)
 	}
 	
-	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[Image], ErrorResponse> {
+	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[ImageEntity], ErrorResponse> {
 		imageRepositoy.getImages(name: name, page: page, perPage: perPage)
 	}
 }

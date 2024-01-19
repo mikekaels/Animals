@@ -18,7 +18,7 @@ internal final class DetailVM {
 	}
 	
 	enum DataSourceType: Hashable {
-		case content(Image)
+		case content(ImageEntity)
 	}
 }
 
@@ -28,8 +28,8 @@ extension DetailVM {
 		let rightBarButtonDidTap: AnyPublisher<Void, Never>
 		let doubleTap: AnyPublisher<String, Never>
 		let loadMore: AnyPublisher<Void, Never>
-		let saveImageToLocal = PassthroughSubject<Image, Never>()
-		let dislikeImage = PassthroughSubject<Image, Never>()
+		let saveImageToLocal = PassthroughSubject<ImageEntity, Never>()
+		let dislikeImage = PassthroughSubject<ImageEntity, Never>()
 	}
 	
 	class State {

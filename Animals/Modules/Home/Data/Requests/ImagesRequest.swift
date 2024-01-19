@@ -9,7 +9,7 @@ import Networking
 
 internal struct ImagesRequest: APIRequest {
 	
-	typealias Response = [Image]
+	typealias Response = [ImageEntity]
 	
 	private var animalName: String
 	
@@ -32,12 +32,12 @@ internal struct ImagesRequest: APIRequest {
 	
 	var body: [String : Any] = [:]
 	
-	func map(_ data: Data) throws -> [Image] {
+	func map(_ data: Data) throws -> [ImageEntity] {
 		let decoded = try JSONDecoder().decode(ImageResponse.self, from: data)
 		guard let photos = decoded.photos else { return [] }
 		
 		return photos.map {
-			return Image(name: animalName, image: $0.src?.tiny ?? "")
+			return ImageEntity(name: animalName, image: $0.src?.tiny ?? "")
 		}
 	}
 }

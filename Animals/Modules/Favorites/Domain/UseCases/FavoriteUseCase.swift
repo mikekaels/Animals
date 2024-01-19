@@ -8,7 +8,7 @@
 import Combine
 
 internal protocol FavoriteUseCaseProtocol {
-	func getImages() -> AnyPublisher<[Image], Error>
+	func getImages() -> AnyPublisher<[ImageEntity], Error>
 	func delete(image: String) -> AnyPublisher<Bool, Error>
 }
 
@@ -25,7 +25,7 @@ extension FavoriteUseCase: FavoriteUseCaseProtocol {
 		imageCoreData.delete(image: image)
 	}
 	
-	func getImages() -> AnyPublisher<[Image], Error> {
+	func getImages() -> AnyPublisher<[ImageEntity], Error> {
 		imageCoreData.getAll()
 	}
 }

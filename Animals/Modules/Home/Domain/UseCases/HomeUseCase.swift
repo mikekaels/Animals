@@ -10,7 +10,7 @@ import Combine
 
 internal protocol HomeUseCaseProtocol {
 	func getAnimal(name: String) -> AnyPublisher<[HomeContent], ErrorResponse>
-	func getImage(name: String) -> AnyPublisher<Image, ErrorResponse>
+	func getImage(name: String) -> AnyPublisher<ImageEntity, ErrorResponse>
 	func getPrefixAnimal() -> [String]
 }
 
@@ -33,7 +33,7 @@ extension HomeUseCase: HomeUseCaseProtocol {
 		animalRepository.getAnimal(name: name, numOfAnimal: numberOfAnimalEachOfCategory)
 	}
 	
-	func getImage(name: String) -> AnyPublisher<Image, ErrorResponse> {
+	func getImage(name: String) -> AnyPublisher<ImageEntity, ErrorResponse> {
 		imageRepository.getImage(name: name)
 	}
 	

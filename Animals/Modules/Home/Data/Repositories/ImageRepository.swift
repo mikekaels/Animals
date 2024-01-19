@@ -9,8 +9,8 @@ import Networking
 import Combine
 
 internal protocol ImageRepositoryProtocol {
-	func getImage(name: String) -> AnyPublisher<Image, ErrorResponse>
-	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[Image], ErrorResponse>
+	func getImage(name: String) -> AnyPublisher<ImageEntity, ErrorResponse>
+	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[ImageEntity], ErrorResponse>
 }
 
 internal final class ImageRepository {
@@ -22,13 +22,13 @@ internal final class ImageRepository {
 }
 
 extension ImageRepository: ImageRepositoryProtocol {
-	func getImage(name: String) -> AnyPublisher<Image, ErrorResponse> {
+	func getImage(name: String) -> AnyPublisher<ImageEntity, ErrorResponse> {
 		let apiRequest = ImageRequest(animalName: name)
 		let result = network.request(apiRequest)
 		return result.asPublisher
 	}
 	
-	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[Image], ErrorResponse> {
+	func getImages(name: String, page: Int, perPage: Int) -> AnyPublisher<[ImageEntity], ErrorResponse> {
 		let apiRequest = ImagesRequest(animalName: name, page: page, perPage: perPage)
 		let result = network.request(apiRequest)
 		return result.asPublisher

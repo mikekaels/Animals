@@ -10,9 +10,9 @@ import CoreData
 import Combine
 
 internal protocol ImageCoreDataRepositoryProtocol {
-	func getAll() -> AnyPublisher<[Image], Error>
+	func getAll() -> AnyPublisher<[ImageEntity], Error>
 	func delete(image: String) -> AnyPublisher<Bool, Error>
-	func create(image: Image) -> AnyPublisher<Bool, Error>
+	func create(image: ImageEntity) -> AnyPublisher<Bool, Error>
 	func checkLikeStatusBy(image: String) -> Bool
 }
 
@@ -47,18 +47,18 @@ extension ImageCoreDataRepository: ImageCoreDataRepositoryProtocol {
 		}
 	}
 	
-	func getAll() -> AnyPublisher<[Image], Error> {
+	func getAll() -> AnyPublisher<[ImageEntity], Error> {
 		let request = ImageCoreDataEntity.fetchRequest()
 		do {
-			let result: [Image] = try container.viewContext.fetch(request).map { item in
-				return Image(name: item.name!, image: item.image!, isLiked: item.isLiked, id: item.id!)
+			let result: [ImageEntity] = try container.viewContext.fetch(request).map { item in
+				return ImageEntity(name: item.name!, image: item.image!, isLiked: item.isLiked, id: item.id!)
 			}
 			
-			return Future<[Image], Error> { promise in
+			return Future<[ImageEntity], Error> { promise in
 				promise(.success(result))
 			}.eraseToAnyPublisher()
 		} catch {
-			return Future<[Image], Error> { promise in
+			return Future<[ImageEntity], Error> { promise in
 				promise(.failure(NSError(domain: "", code: 0)))
 			}.eraseToAnyPublisher()
 		}
@@ -81,7 +81,7 @@ extension ImageCoreDataRepository: ImageCoreDataRepositoryProtocol {
 		}.eraseToAnyPublisher()
 	}
 	
-	func create(image: Image) -> AnyPublisher<Bool, Error> {
+	func create(image: ImageEntity) -> AnyPublisher<Bool, Error> {
 		let entity = ImageCoreDataEntity(context: container.viewContext)
 		entity.id = image.id
 		entity.isLiked = image.isLiked

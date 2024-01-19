@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class TabBarController: UITabBarController {
 	
@@ -17,6 +18,9 @@ class TabBarController: UITabBarController {
 		
 		let favoriteVC = FavoriteVC()
 		favoriteVC.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(systemName: "heart.fill"), tag: 0)
+		
+//		let favoriteSwiftUI = UIHostingController(rootView: FavoriteView())
+//		favoriteSwiftUI.tabBarItem = UITabBarItem(title: "Favorites SwiftUI", image: UIImage(systemName: "heart.circle.fill"), tag: 0)
 		
 		self.viewControllers = [listVC, favoriteVC]
 		customizeTabBarAppearance()
