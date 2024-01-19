@@ -4,8 +4,8 @@
 
 ## Screens
 - List of animals
-- Detail of animals
-- Favorite / liked images
+- Detail of animals (Double tap the image to like & dislike)
+- List of liked image
 
 ### Clean Architecture
 ![Clean Architechture](https://ik.imagekit.io/m1ke1magek1t/CleanArch.png?updatedAt=1705685276939)
