@@ -8,7 +8,7 @@
 - Favorite / liked images
 
 ### Clean Architecture
-![Clean Architechture](https://ik.imagekit.io/m1ke1magek1t/Animals_oPEWOIJqX.png?updatedAt=1705683689856)
+![Clean Architechture](https://ik.imagekit.io/m1ke1magek1t/CleanArch.png?updatedAt=1705685276939)
 
 I use the clean architecture that might be worth looking into in larger projects.
 ```
