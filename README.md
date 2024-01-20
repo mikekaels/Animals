@@ -18,14 +18,14 @@ I use the clean architecture that might be worth looking to build highly testabl
 ├─ Modules
     ├─ Home
     ├─ Details
-        ├─ Data
+        ├─ Data (Concerned with data-related operations, including repositories, requests, and responses)
             ├─ Repositories
             ├─ Requests
             ├─ Responses
-        ├─ Domain
+        ├─ Domain (Contains business logic and entities that represent the core functionality of the module)
             ├─ UseCases
             ├─ Entities
-        ├─ Presentation
+        ├─ Presentation (Handles the UI and the logic of the view)
             ├─ DetailVC
             ├─ DetailVM
             ├─ Views
