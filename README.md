@@ -51,7 +51,7 @@ internal final class StoreVM {
 }
 ```
 
-#### ViewController
+#### ViewController (✅ Reactive with Combine)
 ```
 private func bindViewModel() {
 
@@ -83,7 +83,7 @@ view.addSubview(imageView)
 
 
 ### Auto Layout
-To configure auto layout I use [SnapKit](https://github.com/SnapKit/SnapKit) to reduce the code and make development faster.
+To configure auto layout I use [SnapKit](https://github.com/SnapKit/SnapKit) for faster development .
 
 without SnapKit
 ```
@@ -105,7 +105,7 @@ imageView.snp.makeConstraints { make in
 
 
 ### Networking
-Using [Alamofire](https://github.com/Alamofire/Alamofire) to manage the network request and I build an abstraction for the APIRequest
+Using [Alamofire](https://github.com/Alamofire/Alamofire) to manage the network request and use an abstraction for the APIRequest
 ```
 internal struct AnimalRequest: APIRequest {
   typealias Response = [HomeContent]
@@ -134,18 +134,10 @@ internal struct AnimalRequest: APIRequest {
 - **XCTest**
 
 
-### Dependency
-- Local storage **CoreData**
-- Networking  using **Alamofire**
-- Auto Layout using **Snapkit**
-- Handling image using **Kingfisher**
-- **CombineCocoa**
-
-
 ## Getting Started
 ### 1. Clone this project
 You can clone the project by Http or Ssh on your terminal
-- HTTPS ``` https://github.com/mikekaels/Animals.git ```
+- HTTPS ``` git clone https://github.com/mikekaels/Animals.git ```
 - SSH ``` git clone git@github.com:mikekaels/Animals.git ```
 - Or download the project
 
@@ -165,3 +157,10 @@ Select the simulator or device
 and Run the project!
 
 ### 5. Done
+
+## Dependency
+- Local storage **CoreData**
+- Networking  using **Alamofire**
+- Auto Layout using **Snapkit**
+- Handling image using **Kingfisher**
+- **CombineCocoa**
