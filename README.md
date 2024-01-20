@@ -37,31 +37,33 @@ I use the clean architecture that might be worth looking to build highly testabl
 #### ViewModel
 ```
 internal final class StoreVM {
-    struct Action {
-        ... all the actions from the view
-    }
+  struct Action {
+  ... all the actions from the view
+  }
 
-    class State {
-        ... all the state/datasources
-    }
+  class State {
+  ... all the state/datasources
+  }
 
-    func transform(_ input: Input, cancellables: inout Set<AnyCancellable>) -> Output {
-        ... where all the actions observed and giving the side effect to the state
-    }
+  func transform(_ input: Input, cancellables: inout Set<AnyCancellable>) -> Output {
+  ... where all the actions observed and giving the side effect to the state
+  }
 }
 ```
 
 #### ViewController
 ```
 private func bindViewModel() {
-   let input = StoreVM.Input(...)
-   let output = viewModel.transform(input, cancellables: &cancellables)
-	
-   output.$...
-      .sink { [weak self] _ in
-      .... // do something to the view when there is changes on the state
-      }
-      .store(in: &cancellables)
+
+  let input = StoreVM.Input(...)
+  let output = viewModel.transform(input, cancellables: &cancellables)
+
+  output.$...
+  .sink { [weak self] _ in
+  .... // do something to the view when there is changes on the state
+  }
+  .store(in: &cancellables)
+
 }
 ```
 
@@ -70,11 +72,11 @@ private func bindViewModel() {
 I'm more confident to use programatically to avoid error or conflict on the XIB or Storyboard
 ```
 private let imageView: UIImageView = {
-		let image = UIImageView()
-		image.contentMode = .scaleAspectFill
-		image.layer.masksToBounds = true
-		return image
-	}()
+  let image = UIImageView()
+  image.contentMode = .scaleAspectFill
+  image.layer.masksToBounds = true
+  return image
+}()
         
 view.addSubview(imageView)
 ```
@@ -106,26 +108,25 @@ imageView.snp.makeConstraints { make in
 Using [Alamofire](https://github.com/Alamofire/Alamofire) to manage the network request and I build an abstraction for the APIRequest
 ```
 internal struct AnimalRequest: APIRequest {
-	typealias Response = [HomeContent]
-	let numOfAnimal: Int
-	
-	var baseURL: String { NetworkConfiguration.BaseURL.animal.rawValue }
-	var method: HTTPMethod = .get
-	var path: String
-	var headers: [String : Any] = ["X-Api-Key": "pfFQJxLiPMYqvY5rZXbYdw==VBjYVanTRFZdEhx9"]
-	var body: [String : Any] = [:]
+  typealias Response = [HomeContent]
+  let numOfAnimal: Int
+
+  var baseURL: String { NetworkConfiguration.BaseURL.animal.rawValue }
+  var method: HTTPMethod = .get
+  var path: String
+  var headers: [String : Any] = ["X-Api-Key": "pfFQJxLiPMYqvY5rZXbYdw==VBjYVanTRFZdEhx9"]
+  var body: [String : Any] = [:]
 
   init(animalName: String, numOfAnimal: Int) {
-		self.numOfAnimal = numOfAnimal
-		self.path = "v1/animals?name=\(animalName)"
-	}
-	
-	func map(_ data: Data) throws -> [HomeContent] {
-		let decoded = try JSONDecoder().decode([AnimalResponse].self, from: data)
-		return decoded.prefix(upTo: numOfAnimal).map { HomeContent(name: $0.name ?? "", color: UIColor.getRandomPrefixColor()) }
-	}
-}
+    self.numOfAnimal = numOfAnimal
+    self.path = "v1/animals?name=\(animalName)"
+  }
 
+  func map(_ data: Data) throws -> [HomeContent] {
+    let decoded = try JSONDecoder().decode([AnimalResponse].self, from: data)
+    return decoded.prefix(upTo: numOfAnimal).map { HomeContent(name: $0.name ?? "", color: UIColor.getRandomPrefixColor()) }
+  }
+}
 ```
 
 
