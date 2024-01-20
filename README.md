@@ -5,13 +5,13 @@
 ## Screens
 - List of animals
 - Detail of animals ```Double tap the image to like & dislike```
-- List of liked image
+- Favorites: list of liked image ```Double tap the image to dislike```
 
 
 ### Clean Architecture
 ![Clean Architechture](https://ik.imagekit.io/m1ke1magek1t/CleanArch.png?updatedAt=1705685276939)
 
-I use the clean architecture that might be worth looking into in larger projects.
+I use the clean architecture that might be worth looking to build highly testable projects and decoupling the modules so it can minimize the complexity.
 ```
 ├─ Networking
 ├─ Shared
